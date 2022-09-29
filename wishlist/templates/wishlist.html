@@ -6,27 +6,34 @@
 {% block content %}
 <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand">{{nama}}</a>
+        <a class="navbar-brand">{{nama}}</a>
 
-      <button>
-        <a href="{% url 'wishlist:logout' %}">Logout</a>
-      </button>
+        <button>
+            <a href="{% url 'wishlist:logout' %}">Logout</a>
+        </button>
     </div>
-  </nav>
-
-<table>
-    <tr>
-    <th>Nama Barang</th>
-    <th>Harga Barang</th>
-    <th>Deskripsi</th>
-    </tr>
-    {% for barang in list_barang %}
+</nav>
+<div class="main">
+<table class="table table-bordered">
+    <thead>
         <tr>
-            <td>{{barang.nama_barang}}</td>
-            <td>{{barang.harga_barang}}</td>
-            <td>{{barang.deskripsi}}</td>
+            <th scope = "col" colspan = "3"> Wishlist</th>
         </tr>
-    {% endfor %}
+        <tr>
+            <th scope="col" class="table-dark">Nama Barang</th>
+            <th scope="col" class="table-dark">Harga Barang</th>
+            <th scope="col" class="table-dark">Deskripsi</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for barang in list_barang %}
+            <tr>
+                <td>{{barang.nama_barang}}</td>
+                <td>{{barang.harga_barang}}</td>
+                <td>{{barang.deskripsi}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
 </table>
 
 <h5>Sesi terakhir login: {{last_login}}</h5>
