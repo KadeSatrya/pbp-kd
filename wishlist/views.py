@@ -10,6 +10,8 @@ from django.contrib.auth.decorators import login_required
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.http import JsonResponse
+
 @login_required(login_url='/wishlist/login/')
 def show_wishlist(request):
     # Context untuk file wishlist.html
@@ -20,11 +22,28 @@ def show_wishlist(request):
     }
     return render(request, "wishlist.html", context)
 
+def show_wishlist_ajax(request):
+    context = {
+        'nama': 'Kade Satrya Noto Sadharma',
+        'last_login': request.COOKIES['last_login'],
+    }
+    return render(request, "wishlist_ajax.html", context)
+
+def submit_ajax(request):
+    if request.method == 'POST':
+        nama_barang = request.POST.get('nama_barang')
+        harga_barang = request.POST.get('harga_barang')
+        deskripsi = request.POST.get('deskripsi')
+
+        Barang = BarangWishlist.objects.create(nama_barang = nama_barang, harga_barang=harga_barang, deskripsi=deskripsi)
+        return JsonResponse({'barang': Barang}) 
+
 def show_xml(request):
     return HttpResponse(serializers.serialize("xml", data_barang_wishlist), content_type="application/xml")
 
 def show_json(request):
-    return HttpResponse(serializers.serialize("json", data_barang_wishlist), content_type="application/json")
+    data_barang_wishlist = BarangWishlist.objects.all()
+    return JsonResponse({'json_data': list(data_barang_wishlist.values())})
 
 def show_json_by_id(request, id):
     data_barang_wishlist_by_id = BarangWishlist.objects.filter(pk=id)
