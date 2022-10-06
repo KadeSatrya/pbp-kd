@@ -5,9 +5,9 @@
     <script>
         $(document).ready(function() {
             $.ajax({
-            url: "{% url 'wishlist:show_json' %}",
-            type: 'GET',
-            dataType: 'json',
+                url: "{% url 'wishlist:show_json' %}",
+                type: 'GET',
+                dataType: 'json',
             }).done(function(response) {
                 for (var i in response.json_data) {
                     var item = `
@@ -20,6 +20,8 @@
                     $('.table-content').append(item)
                 }
             })
+        })
+        $(document).ready(function() {
             $('#form').submit(function(e) {
                 e.preventDefault();
                 $.ajax({
@@ -34,9 +36,9 @@
                 }).done(function(response) {
                     var content = `
                         <tr>
-                            <td>${response.barang.nama_barang}</td>
-                            <td>${response.barang.harga_barang}</td>
-                            <td>${response.barang.deskripsi}</td>
+                            <td>${response.nama_barang}</td>
+                            <td>${response.harga_barang}</td>
+                            <td>${response.deskripsi}</td>
                         </tr>
                     `
                     $('.table-content').append(content)
@@ -76,7 +78,7 @@
         </tbody>
     </table>
 
-    <form class="row mt-5 pt-5" id="form">
+    <form class="row mt-5 pt-5" id="form" method="POST" action="">
         {% csrf_token %}
         <div class="col-12 col-lg-6 offset-lg-2">
             <div class="input-group">

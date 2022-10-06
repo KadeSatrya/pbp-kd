@@ -22,6 +22,7 @@ def show_wishlist(request):
     }
     return render(request, "wishlist.html", context)
 
+@login_required(login_url='/wishlist/login/')
 def show_wishlist_ajax(request):
     context = {
         'nama': 'Kade Satrya Noto Sadharma',
@@ -35,8 +36,8 @@ def submit_ajax(request):
         harga_barang = request.POST.get('harga_barang')
         deskripsi = request.POST.get('deskripsi')
 
-        Barang = BarangWishlist.objects.create(nama_barang = nama_barang, harga_barang=harga_barang, deskripsi=deskripsi)
-        return JsonResponse({'barang': Barang}) 
+        barang = BarangWishlist.objects.create(nama_barang = nama_barang, harga_barang=harga_barang, deskripsi=deskripsi)
+        return JsonResponse({'nama_barang': barang.nama_barang, "harga_barang": barang.harga_barang, "deskripsi": barang.deskripsi}) 
 
 def show_xml(request):
     return HttpResponse(serializers.serialize("xml", data_barang_wishlist), content_type="application/xml")
